@@ -15,7 +15,9 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="5.0.1" />
@@ -24,8 +26,10 @@
         <PackageReference Include="System.Data.Entity.Repository" Version="2.0.0" />
         <PackageReference Include="System.ServiceModel.Primitives" Version="4.9.0" />
         <PackageReference Include="System.ServiceModel.Web" Version="1.0.0" />
+
         <PackageReference Include="Z.EntityFramework.Extensions" Version="5.2.17" />
         <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="5.14.2" />
+
     </ItemGroup>
 
     <ItemGroup>

@@ -54,6 +54,7 @@ namespace backendRCVUcab.Persistence.Database
         }
 
         
+
         public virtual Microsoft.EntityFrameworkCore.DbSet<TallererEntity> Talleres
         {
             get; set;

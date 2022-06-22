@@ -35,8 +35,7 @@ namespace RCVUcabBackend
                 options.UseNpgsql(
                     Configuration["DBConnectionString"], 
                     x => x.UseNetTopologySuite()
-                ).UseValidationCheckConstraints().
-                    UseEnumCheckConstraints()
+                )
             );
             services.AddTransient<IRCVDbContext, RCVDbContext>();
             services.AddTransient<ITallerDAO, TallerDAO>();

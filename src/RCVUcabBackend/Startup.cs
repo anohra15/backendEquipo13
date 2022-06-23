@@ -31,7 +31,7 @@ namespace RCVUcabBackend
             services.AddControllers();
             services.AddDbContext<RCVDbContext>(options => 
                 options.UseNpgsql(
-                    Configuration["DBConnectionString"], 
+                    /*Configuration["DBConnectionString"]*/Configuration.GetConnectionString("DefaultConnection"), 
                     x => x.UseNetTopologySuite()
                 ).UseValidationCheckConstraints().
                     UseEnumCheckConstraints()

@@ -1,6 +1,6 @@
 namespace RCVUcabBackend.BussinesLogic.DTOs
 {
-    public class TallerDTO
+    public class PeritoDTO
     {
         
     }

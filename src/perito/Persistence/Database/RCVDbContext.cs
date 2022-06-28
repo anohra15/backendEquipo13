@@ -1,6 +1,7 @@
 using perito.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
+using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 namespace perito.Persistence.Database
 {
     public class RCVDbContext : DbContext, IRCVDbContext
@@ -18,14 +19,6 @@ namespace perito.Persistence.Database
             get { return this; }
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            /*if (!optionsBuilder.IsConfigured)
-             {
-                 optionsBuilder.UseNpgsql(
-                     "Server=migrations;Database=postgres;Port=5432;Username=postgres;Password=admin");
-             }*/
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

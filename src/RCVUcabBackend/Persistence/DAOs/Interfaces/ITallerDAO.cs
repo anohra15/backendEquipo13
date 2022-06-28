@@ -1,7 +1,10 @@
+using RCVUcabBackend.BussinesLogic.DTOs;
+
 namespace RCVUcabBackend.Persistence.DAOs.Interfaces
 {
-    public class ITallerDAO
+    public interface ITallerDAO
     {
+        public int CreateTaller(TallerDTO taller);
         
     }
 }

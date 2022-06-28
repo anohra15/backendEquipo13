@@ -10,33 +10,74 @@ using perito.Responses;
 namespace perito.Controllers.Perito
 {
     [ApiController]
-    [Route("provider")]
+    [Route("perito")]
     public class PeritoController : Controller
     {
         private readonly IPeritoDAO _peritoDAO;
         private readonly ILogger<PeritoController> _logger;
 
-        public PeritoController(ILogger<PeritoController> logger, IPeritoDAO provider)
+        public PeritoController(ILogger<PeritoController> logger, IPeritoDAO peritoDAO)
         {
-            //_ adminDAO = AdministradorDAO;
+            _peritoDAO = peritoDAO;
             _logger = logger;
 
         }
 
-        [HttpGet("providers/{brand}")]
+        [HttpPost("create/perito")]
 
-        public ApplicationResponse<List<PeritoDTO>> GerProviderByBrand([Required] [FromRoute] string brand)
+        public ApplicationResponse<PeritoDTO> createPerito([Required] [FromRoute] PeritoDTO peritoDTO)
         {
-            var response = new ApplicationResponse<List<PeritoDTO>>();
+            var response = new ApplicationResponse<PeritoDTO>();
             try
             {
-                //response.Data = _adminDAO.GetProvidersByBrand(brand);
+                response.DataInsert = _peritoDAO.CreatePerito(peritoDTO);
+                response.Message = "se registro exitosamente";
+                response.Data = peritoDTO;
             }
             catch (RCVExceptions ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
-                response.Exception = ex.Excepcion.ToString();
+            }
+
+            return response;
+        }
+
+        [HttpPut("Actualizar/{email}")]
+
+            public ApplicationResponse<PeritoDTO> updatePerito(PeritoDTO peritoDTO, [Required] [FromRoute] string email)
+        {
+            var response = new ApplicationResponse<PeritoDTO>();
+            try
+            {
+                response.DataInsert = _peritoDAO.ActualizarPerito(peritoDTO,email);
+                response.Message = "se actualizo exitosamente";
+                response.Data = peritoDTO;
+            }
+            catch (RCVExceptions ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+            
+             [HttpDelete("EliminarPerito/{email}")]
+
+            public ApplicationResponse<PeritoDTO> deletePerito(PeritoDTO peritoDTO, [Required] [FromRoute] string email)
+        {
+            var response = new ApplicationResponse<PeritoDTO>();
+            try
+            {
+                response.DataInsert = _peritoDAO.EliminarPerito(peritoDTO,email);
+                response.Message = "se elimino exitosamente";
+                response.Data = peritoDTO;
+            }
+            catch (RCVExceptions ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
             }
 
             return response;

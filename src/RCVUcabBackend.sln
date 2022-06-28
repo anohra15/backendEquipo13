@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcabBackend", "RCVUcabBackend\RCVUcabBackend.csproj", "{CA454638-B01E-4A58-9982-FC9E4A2808BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "administrador", "administrador\administrador.csproj", "{8689D530-7A1B-44FB-84C3-753CD4801954}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "perito", "perito\perito.csproj", "{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "perito.Tests", "perito.Tests\perito.Tests.csproj", "{9B2BCF53-0F34-4062-9AE9-E272CEB95C86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8689D530-7A1B-44FB-84C3-753CD4801954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+								{8689D530-7A1B-44FB-84C3-753CD4801954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+								{8689D530-7A1B-44FB-84C3-753CD4801954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+								{8689D530-7A1B-44FB-84C3-753CD4801954}.Release|Any CPU.Build.0 = Release|Any CPU
+								{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+								{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+								{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+								{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2BCF53-0F34-4062-9AE9-E272CEB95C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2BCF53-0F34-4062-9AE9-E272CEB95C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2BCF53-0F34-4062-9AE9-E272CEB95C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2BCF53-0F34-4062-9AE9-E272CEB95C86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

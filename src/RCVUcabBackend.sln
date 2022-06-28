@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcabBackend", "RCVUcabBackend\RCVUcabBackend.csproj", "{CA454638-B01E-4A58-9982-FC9E4A2808BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcabBackend.Tests", "RCVUcabBackend.Tests\RCVUcabBackend.Tests.csproj", "{8B975419-1CC0-4897-8332-998CE90EBE4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA454638-B01E-4A58-9982-FC9E4A2808BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B975419-1CC0-4897-8332-998CE90EBE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B975419-1CC0-4897-8332-998CE90EBE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B975419-1CC0-4897-8332-998CE90EBE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B975419-1CC0-4897-8332-998CE90EBE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

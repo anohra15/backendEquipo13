@@ -1,3 +1,5 @@
+using System.Data.Entity;
+using backendRCVUcab.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backendRCVUcab.Persistence.Database
@@ -7,7 +9,7 @@ namespace backendRCVUcab.Persistence.Database
         public RCVDbContext() {}
         
         public RCVDbContext(DbContextOptions<RCVDbContext> options):base(options) {}
-
+        
         public DbContext DbContext
         {
             get
@@ -49,6 +51,7 @@ namespace backendRCVUcab.Persistence.Database
                 .IsUnicode(true);
             //Fin
         }
+
 
         
          public virtual Microsoft.EntityFrameworkCore.DbSet<TallererEntity> Talleres

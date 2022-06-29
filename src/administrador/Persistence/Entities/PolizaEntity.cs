@@ -8,12 +8,11 @@ namespace administrador.Persistence.Entities
     public class PolizaEntity:BaseEntity
     {
         [Required]
-        public AseguradoEntity asegurado { get; set; }
-        [Required]
-        public string tipo { get; set; } 
+        public string tipo { get; set; }
         [Column(TypeName = "DATE")]
+        [Required]
         public DateTime vencimiento { get; set; } 
-        public HashSet<IncidentesEntity> poliza { get; set; }
-        public HashSet<PolizaEntity> seguro { get; set; }
+        public ICollection<AseguradoEntity> asegurado { get; set; }
+        public ICollection<IncidentesEntity> incidentes { get; set; }
     }
 }

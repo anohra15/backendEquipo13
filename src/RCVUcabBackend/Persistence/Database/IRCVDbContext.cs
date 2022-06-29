@@ -34,5 +34,15 @@ namespace backendRCVUcab.Persistence.Database
         {
             get; set;
         }
+        
+        DbSet<AnalisisEntity> Analisis
+        {
+            get; set;
+        }
+        
+        DbSet<PiezasEntity> Piezas
+        {
+            get; set;
+        }
     }
 }

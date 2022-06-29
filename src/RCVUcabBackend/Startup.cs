@@ -39,7 +39,6 @@ namespace RCVUcabBackend
             );
             services.AddTransient<IRCVDbContext, RCVDbContext>();
             services.AddTransient<ITallerDAO, TallerDAO>();
-            //services.AddTransient<IMessageConsumer, RabbitMQConsumer>();
             //Implementar la inyeccion de sus entidades
             /*
              */

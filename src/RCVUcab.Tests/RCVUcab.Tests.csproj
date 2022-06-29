@@ -13,6 +13,9 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.17" />
+
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
         <PackageReference Include="MockQueryable.Moq" Version="5.0.1" />
         <PackageReference Include="Moq" Version="4.18.1" />
@@ -29,6 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
+
       <ProjectReference Include="..\administrador\administrador.csproj" />
       <ProjectReference Include="..\RCVUcabBackend\RCVUcabBackend.csproj" />
     </ItemGroup>

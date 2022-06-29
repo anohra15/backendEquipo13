@@ -7,6 +7,9 @@ using backendRCVUcab.Exceptions;
 using RCVUcabBackend.Persistence.DAOs.Implementations;
 using backendRCVUcab.Persistence.Database;
 using backendRCVUcab.Persistence.Entities;
+using System.Threading.Tasks;
+using backendRCVUcab.Exceptions;
+using backendRCVUcab.Persistence.Database;
 using backendRCVUcab.Persistence.Entities.ChecksEntitys;
 using Bogus;
 using Microsoft.Extensions.Logging;
@@ -15,13 +18,17 @@ using MockQueryable.Moq;
 using Newtonsoft.Json;
 using RCVUcab.Tests.DataSeed;
 using RCVUcabBackend.BussinesLogic.DTOs;
+using RCVUcab.Tests.DataSeed;
+using RCVUcabBackend.BussinesLogic.DTOs;
+using RCVUcabBackend.Persistence.DAOs.Implementations;
 using Xunit;
 
 namespace RCVUcab.Tests.UnitTests.DAOs
 {
     public class TallerDAOTest
     {
-        private readonly TallerDAO _dao;
+
+         private readonly TallerDAO _dao;
         private readonly Mock<IRCVDbContext> _contextMock;
         private readonly Mock<ILogger<TallerDAO>> _mockLogger;
         
@@ -89,6 +96,112 @@ namespace RCVUcab.Tests.UnitTests.DAOs
             Assert.Equal("No se puede crear este taller porque ya existe",result.Mensaje);
             return Task.CompletedTask;
         }
-
+        
+        [Fact]
+        public Task EliminarTallerResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var taller = DataSeedTallerEdit.requests2[0];
+            var i=_dao.EliminarTaller(taller.Id);
+            Assert.Equal(i,1);
+            _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(1));
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task EliminarTallerEjecutandoLaExcepcionDeTallerNoRegistrado()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var taller = DataSeedTallerEdit.requestEliminateExcep;
+            var result = Assert.Throws<RCVExceptions>(()=>_dao.EliminarTaller(taller.Id));
+            Assert.Equal("No existe el talled",result.Mensaje);
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ActualizarTallerResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var taller = DataSeedTallerEdit.requests2[1];
+            var editTaller = new TallerDTO()
+            {
+                nombre_taller = "G",
+                direccion = "T"
+            };
+            var i=_dao.ActualizarTaller(editTaller,taller.Id);
+            Assert.Equal(i,1);
+            _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(1));
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ActualizarTallerEjecutandoLaExcepcionDeTallerNoRegistrado()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var editTaller = new TallerDTO()
+            {
+                nombre_taller = "G"
+            };
+            var taller = DataSeedTallerEdit.requestEditExcep;
+            var result = Assert.Throws<RCVExceptions>(()=>_dao.ActualizarTaller(editTaller,taller.Id));
+            Assert.Equal("No existe el talled",result.Mensaje);
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ActualizarTallerConMarcaExistenteResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var editTaller = new TallerDTO()
+            {
+                Marcac_Carros = new List<MarcaDTO>
+                {
+                    new MarcaDTO {nombre_marca = "Toyota C"}
+                }
+            };
+            var taller = DataSeedTallerEdit.requests2[0];
+            var i=_dao.ActualizarTaller(editTaller,taller.Id);
+            Assert.Equal(i,1);
+            _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(1));
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ActualizarTallerConMarcaNoExistenteResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var editTaller = new TallerDTO()
+            {
+                Marcac_Carros = new List<MarcaDTO>
+                {
+                    new MarcaDTO {nombre_marca = "Toyota CD"}
+                }
+            };
+            var taller = DataSeedTallerEdit.requests2[0];
+            var i=_dao.ActualizarTaller(editTaller,taller.Id);
+            Assert.Equal(i,1);
+            _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(2));
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ConsultarRquerimientosAsignadosResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var taller = DataSeedTallerEdit.requests2[1];
+            var i=_dao.ConsultarRequerimientosAsignados(taller.Id);
+            Assert.NotEmpty(i);
+            return Task.CompletedTask;
+        }
+        
+        [Fact]
+        public Task ConsultarRquerimientosAsignadosPorFiltroResultadoExitoso()
+        {
+            _contextMock.SetupDbContextData("insert");
+            var taller = DataSeedTallerEdit.requests2[1];
+            var i=_dao.ConsultarRequerimientosAsignadosPorFiltro(taller.Id,CheckEstadoAnalisisAccidente.Pendiente);
+            Assert.Equal(CheckEstadoAnalisisAccidente.Pendiente.ToString(),i[0].estado);
+            return Task.CompletedTask;
+        }
     }
 }

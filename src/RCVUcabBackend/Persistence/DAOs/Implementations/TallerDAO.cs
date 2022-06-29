@@ -11,13 +11,15 @@ using RCVUcabBackend.Persistence.DAOs.Interfaces;
 
 namespace RCVUcabBackend.Persistence.DAOs.Implementations
 {
-    public class TallerDAO : ITallerDAO
+
+    public class TallerDAO: ITallerDAO
     {
         public readonly IRCVDbContext _context;
         public TallererEntity Taller=new TallererEntity();
         public int error = 0;
         public string mensajeError = "Ocurrio un error inesperado ";
         public ICollection<MarcaCarroEntity> listaMarcas= new List<MarcaCarroEntity>();
+        public ICollection<MarcaCarroEntity> listaMarcas2= new List<MarcaCarroEntity>();
         
         public TallerDAO(IRCVDbContext context)
         {
@@ -78,6 +80,18 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             }
 
             return false;
+        }
+
+        public TallererEntity traerTallerA(IRCVDbContext context,Guid id_taller)
+        {
+            if (context.Talleres.Any(x => x.Id == id_taller ))
+            {
+                var taller = context.Talleres.
+                    Where(b => b.Id==id_taller).
+                    Single();
+                return taller;
+            }
+            return null;
         }
 
         public void crearTallerEntity(TallerDTO T)
@@ -142,6 +156,155 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                 throw new RCVExceptions(mensajeError);
             }
             return i;
+        }
+        
+        public int EliminarTaller(Guid id_taller)
+        {
+            var i=0;
+            try
+            {
+                var data =traerTallerA(_context,id_taller);
+                if (data==null)
+                {
+                    error++;
+                    mensajeError = "No existe el talled";
+                    throw new RCVExceptions(mensajeError);
+                }
+                else
+                {
+                    var a=_context.Talleres.Remove(data);
+                    i=_context.DbContext.SaveChanges();   
+                }
+   
+            }catch (Exception ex)
+            {
+                throw new RCVExceptions(mensajeError);
+            }
+            return i;
+        }
+        
+        public int ActualizarTaller(TallerDTO tallerCambios,Guid id_taller)
+        {
+            var i=0;
+            try
+            {
+                var data =traerTallerA(_context,id_taller);
+                if (data==null)
+                {
+                    error++;
+                    mensajeError = "No existe el talled";
+                    throw new RCVExceptions(mensajeError);
+                }
+                else
+                {
+                    if(!(String.IsNullOrEmpty(tallerCambios.direccion)))
+                    {
+                        if (!(validarEspaciosBlancos(tallerCambios.direccion)))
+                        {
+                            data.direccion = tallerCambios.direccion;   
+                        }
+                    }
+                    if(!(String.IsNullOrEmpty(tallerCambios.nombre_taller)))
+                    {
+                        if (!(validarEspaciosBlancos(tallerCambios.nombre_taller)))
+                        {
+                            data.nombre_taller = tallerCambios.nombre_taller;
+                        }
+                    }
+                    if(!(String.IsNullOrEmpty(tallerCambios.RIF)))
+                    {
+                        if (!(validarEspaciosBlancos(tallerCambios.RIF)))
+                        {
+                            data.RIF = tallerCambios.RIF;   
+                        }
+                    }
+                    if(!(String.IsNullOrEmpty(tallerCambios.RIF)))
+                    {
+                        if (!(validarEspaciosBlancos(tallerCambios.RIF)))
+                        {
+                            data.estado = tallerCambios.estado;   
+                        }
+                    }
+
+                    if (tallerCambios.Marcac_Carros != null)
+                    {
+                        if (tallerCambios.Marcac_Carros.Count != 0)
+                        {
+                            foreach (var marca in tallerCambios.Marcac_Carros)
+                            {
+                                if (!AsignarMarcaExistente(_context, marca))
+                                {
+                                    var MC = new MarcaCarroEntity();
+                                    MC.nombre_marca = marca.nombre_marca;
+                                    MC.CreatedAt = DateTime.Now;
+                                    MC.CreatedBy = null;
+                                    MC.UpdatedAt = null;
+                                    MC.UpdatedBy = null;
+                                    listaMarcas.Add(MC);
+                                    _context.Marcas.Add(MC);
+                                    i = _context.DbContext.SaveChanges();
+                                    listaMarcas2.Add(MC);
+                                }
+                                else
+                                {
+                                    
+                                    var marcaExistente = _context.Marcas
+                                        .Where(b => b.nombre_marca.Equals(marca.nombre_marca)).First();
+                                    this.listaMarcas2.Add(marcaExistente);
+                                }
+                            }
+                            data.marcas=this.listaMarcas2;
+                        }
+                    }
+
+                    _context.Talleres.Update(data);
+                    i=_context.DbContext.SaveChanges();   
+                }
+   
+            }catch (Exception ex)
+            {
+                throw new RCVExceptions(mensajeError);
+            }
+            return i;
+        }
+
+        public List<AnalisisConsultaDTO> ConsultarRequerimientosAsignados(Guid id_taller)
+        {
+            try
+            {
+                var data = _context.Analisis.Include(b => b.piezas).Where(c => c.id_usuario_taller.Equals(id_taller))
+                    .Select(b => new AnalisisConsultaDTO
+                    {
+                        titulo_analisis = b.titulo_analisis,
+                        estado = b.estado.ToString()
+                    }).ToList();
+                return data;
+            }
+            catch (Exception e)
+            {
+                throw new RCVExceptions(mensajeError);
+            }
+        }
+        
+        public List<AnalisisConsultaDTO> ConsultarRequerimientosAsignadosPorFiltro(Guid id_taller,CheckEstadoAnalisisAccidente filtro)
+        {
+            try
+            {
+                var data = _context.Analisis.
+                    Include(b => b.piezas).
+                    Where(c => c.id_usuario_taller.Equals(id_taller)&&
+                               c.estado==filtro)
+                    .Select(b => new AnalisisConsultaDTO
+                    {
+                        titulo_analisis = b.titulo_analisis,
+                        estado = b.estado.ToString()
+                    }).ToList();
+                return data;
+            }
+            catch (Exception e)
+            {
+                throw new RCVExceptions(mensajeError);
+            }
         }
     }
 }

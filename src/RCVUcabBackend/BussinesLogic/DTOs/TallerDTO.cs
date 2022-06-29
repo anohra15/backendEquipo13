@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,5 +17,5 @@ namespace RCVUcabBackend.BussinesLogic.DTOs
         public CheckEstadoTaller estado { get; set; }
 
         public List<MarcaDTO> Marcac_Carros { get; set; }
-    };
+    }
 }

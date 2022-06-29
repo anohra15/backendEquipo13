@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Logging;
+
 using backendRCVUcab.Persistence.Database;
 using backendRCVUcab.Persistence.Entities;
 using backendRCVUcab.Persistence.Entities.ChecksEntitys;
 using backendRCVUcab.Responses;
 using Castle.Core.Logging;
+
 using Moq;
 using RCVUcab.Tests.DataSeed;
 using RCVUcabBackend.BussinesLogic.DTOs;
@@ -19,8 +21,6 @@ using RCVUcabBackend.Persistence.DAOs.Interfaces;
 using Xunit;
 
 namespace RCVUcab.Tests.UnitTests.Controllers
-
-
 {
     public class TallerControllerTest
     {
@@ -50,7 +50,7 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         [Fact(DisplayName = "Ejecutar exception de crear taller por datos vacios")]
         public Task CreateTallerConDatosVaciosError()    
         {
-            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new Exception("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros"));
+            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new RCVExceptions("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros"));
             var result = _controller.createTaller(DataSeedTallerEdit.requests1);
             Assert.Equal("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros",result.Message);
             return Task.CompletedTask;
@@ -59,9 +59,48 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         [Fact(DisplayName = "Ejecutar exception de crear taller que ya esta registrado")]
         public Task CreateTallerYaExistenteError()
         {
-            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new Exception("No se puede crear este taller porque ya existe"));
+
+            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new RCVExceptions("No se puede crear este taller porque ya existe"));
             var result = _controller.createTaller(DataSeedTallerEdit.requests1);
             Assert.Equal("No se puede crear este taller porque ya existe",result.Message);
+            return Task.CompletedTask;
+        }
+
+        [Fact(DisplayName = "Eliminar Taller")]
+        public Task EliminarTaller()
+        {
+            _serviceMock.Setup(x => x.EliminarTaller(It.IsAny<Guid>())).Returns(1);
+            var result = _controller.eliminarTaller(DataSeedTallerEdit.requests2[0].Id);
+            Assert.Equal(result.DataInsert,1);
+            return Task.CompletedTask;
+        }
+        
+        [Fact(DisplayName = "Ejecutar exception de Eliminar Taller que no esta registrado ")]
+        public Task EliminarTallerQueNoEstaRegistrado()
+        {
+            _serviceMock.Setup(x => x.EliminarTaller(It.IsAny<Guid>())).Throws(new RCVExceptions("No existe el talled"));
+            var result = _controller.eliminarTaller(DataSeedTallerEdit.requests2[0].Id);
+            Assert.Equal(result.Message,"No existe el talled");
+            return Task.CompletedTask;
+        }
+        
+        [Fact(DisplayName = "Editar un taller")]
+        public Task EditalTaller()
+        {
+            _serviceMock.Setup(x => x.ActualizarTaller(It.IsAny<TallerDTO>(), It.IsAny<Guid>())).Returns(1);
+            var result = _controller.editarTaller(new TallerDTO {nombre_taller = "a"},DataSeedTallerEdit.requests2[0].Id);
+            Assert.Equal(result.DataInsert,1);
+            return Task.CompletedTask;
+        }
+        
+        [Fact(DisplayName = "Ejecutar exception de editar un taller que no esta en la base de dato")]
+        public Task EditalTallerQueNoEstaRegistrado()
+        {
+            var editTaller = new TallerDTO
+                { Marcac_Carros = new List<MarcaDTO> { new MarcaDTO { nombre_marca = "mercedes" } } };
+            _serviceMock.Setup(x => x.ActualizarTaller(It.IsAny<TallerDTO>(), It.IsAny<Guid>())).Throws(new RCVExceptions("No existe el talled"));
+            var result = _controller.editarTaller(editTaller,DataSeedTallerEdit.requests2[0].Id);
+            Assert.Equal(result.Message,"No existe el talled");
             return Task.CompletedTask;
         }
     }

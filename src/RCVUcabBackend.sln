@@ -12,6 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcab.Tests", "RCVUcab.Te
 
 EndProject
 
+ (Modulo taller)
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +39,12 @@ Global
 		{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27FE710E-19E1-4F2A-93A5-D2E36BB0C01D}.Release|Any CPU.Build.0 = Release|Any CPU
 
+
+
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Release|Any CPU.Build.0 = Release|Any CPU
 
 	EndGlobalSection
 EndGlobal

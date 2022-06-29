@@ -1,6 +1,8 @@
 ﻿using administrador.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+
 namespace administrador.Persistence.Database
 {
     public class RCVDbContext : DbContext, IRCVDbContext
@@ -51,6 +53,10 @@ namespace administrador.Persistence.Database
                 .IsRequired();
         }
         
+        public Task<int> SaveChangesAsync()
+        {
+            return base.SaveChangesAsync();
+        }
         public virtual Microsoft.EntityFrameworkCore.DbSet<AseguradoEntity> asegurado { get; set; }
         public virtual Microsoft.EntityFrameworkCore.DbSet<CarrosEntity> cars { get; set; }
         public virtual Microsoft.EntityFrameworkCore.DbSet<IncidentesEntity> incident { get; set; }

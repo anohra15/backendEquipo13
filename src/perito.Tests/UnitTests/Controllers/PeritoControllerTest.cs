@@ -48,14 +48,7 @@ namespace perito.Tests.UnitTests.Controllers
             return Task.CompletedTask;
         }
         
-        [Fact(DisplayName = "Eliminar perito exitosamente")]
-        public Task EliminarPeritoExitosamente()
-        {
-            _serviceMock.Setup(x => x.EliminarPerito(It.IsAny<PeritoDTO>(),email)).Returns(1);
-            var result = _controller.deletePerito(DataSeedPeritoEdit.requests,email);
-            Assert.Equal(1,result.DataInsert);
-            return Task.CompletedTask;
-        }
+       
         
         [Fact(DisplayName = "Ejecutar exception de crear peritos por datos vacios")]
         public Task CreatePeritosConDatosVaciosError()    

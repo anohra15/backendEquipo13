@@ -45,33 +45,13 @@ namespace perito.Controllers.Perito
 
         [HttpPut("Actualizar/{email}")]
 
-            public ApplicationResponse<PeritoDTO> updatePerito(PeritoDTO peritoDTO, [Required] [FromRoute] string email)
+        public ApplicationResponse<PeritoDTO> updatePerito(PeritoDTO peritoDTO, [Required] [FromRoute] string email)
         {
             var response = new ApplicationResponse<PeritoDTO>();
             try
             {
                 response.DataInsert = _peritoDAO.ActualizarPerito(peritoDTO,email);
                 response.Message = "se actualizo exitosamente";
-                response.Data = peritoDTO;
-            }
-            catch (RCVExceptions ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-            
-             [HttpDelete("EliminarPerito/{email}")]
-
-            public ApplicationResponse<PeritoDTO> deletePerito(PeritoDTO peritoDTO, [Required] [FromRoute] string email)
-        {
-            var response = new ApplicationResponse<PeritoDTO>();
-            try
-            {
-                response.DataInsert = _peritoDAO.EliminarPerito(peritoDTO,email);
-                response.Message = "se elimino exitosamente";
                 response.Data = peritoDTO;
             }
             catch (RCVExceptions ex)

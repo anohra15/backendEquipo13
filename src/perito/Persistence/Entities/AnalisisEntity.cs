@@ -11,6 +11,6 @@ namespace perito.Persistence.Entities
         [NotMapped] public Guid id_carro { get; set; }
         [NotMapped] public Guid id_perito { get; set; }
         [NotMapped] public Guid id_usuario_taller { get; set; }
-        [NotMapped] public ICollection<Guid> id_piezas { get; set; } //Atributo que indica la lista de piezas danadas
+        [NotMapped] public ICollection<PiezaEntity> piezas { get; set; } //Atributo que indica la lista de piezas danadas
     }
 }

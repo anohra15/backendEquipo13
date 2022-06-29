@@ -7,7 +7,5 @@ namespace perito.Persistence.DAOs.Interfaces
         public int CreatePerito(PeritoDTO perito);
 
         public int ActualizarPerito(PeritoDTO perito, string email);
-
-        public int EliminarPerito(PeritoDTO perito, string email);
     }
 }

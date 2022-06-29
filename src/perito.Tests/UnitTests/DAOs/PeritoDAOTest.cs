@@ -47,25 +47,14 @@ namespace perito.Tests.UnitTests.DAOs
             string email = "javier@gmail.com";
             _contextMock.SetupDbContextData("update");
             var perito = DataSeedPeritoEdit.requests;
-            var result = _dao.EliminarPerito(perito,email);
+            var result = _dao.ActualizarPerito(perito,email);
             
             Assert.Equal(1,result);
             _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(2));
             return Task.CompletedTask;
         }
         
-        [Fact]
-        public Task EliminarPeritoNuevoResultadoExitoso()
-        {
-            string email = "javier@gmail.com";
-            _contextMock.SetupDbContextData("delete");
-            var perito = DataSeedPeritoEdit.requests;
-            var result = _dao.EliminarPerito(perito,email);
-            
-            Assert.Equal(1,result);
-            _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(2));
-            return Task.CompletedTask;
-        }
+       
       
         
         [Fact]

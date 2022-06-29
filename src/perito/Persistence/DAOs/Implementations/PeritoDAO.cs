@@ -142,30 +142,6 @@ namespace perito.Persistence.DAOs.Implementations
             }
             return i;
         }
-        
-        public int EliminarPerito(PeritoDTO perito, string email)
-        {
-            var i=0;
-            try
-            {
-                if (String.IsNullOrEmpty(perito.email)||validarEspaciosBlancos(perito.email)) {
-
-                    error++;
-                    mensajeError = "No se puede eliniar un perito si email esta vacio";
-                    throw new RCVExceptions(mensajeError);
-                }
-                else {
-                    var peritoElimina = _context.peritos.Find(email);
-                    _context.peritos.Remove(peritoElimina);
-                    i=_context.DbContext.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new RCVExceptions(mensajeError);
-            }
-            return i;
-        }
 
       
         

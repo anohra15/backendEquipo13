@@ -20,8 +20,7 @@ namespace backendRCVUcab.Persistence.Entities
         public CheckEstadoCotizacionTaller estado { get; set; }
         [Required] public Guid usuario_taller { get; set; }
         public OrdenCompraEntity ordenCOmpra { get; set; }
-        [NotMapped]
-        public Guid idAnalisis;
+        public Guid? idAnalisis;
         [NotMapped]
         public Guid idUsuarioTaller;
     }

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcabBackend", "RCVUcabBa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "administrador", "administrador\administrador.csproj", "{8689D530-7A1B-44FB-84C3-753CD4801954}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVUcab.Tests", "RCVUcab.Tests\RCVUcab.Tests.csproj", "{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{8689D530-7A1B-44FB-84C3-753CD4801954}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8689D530-7A1B-44FB-84C3-753CD4801954}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8689D530-7A1B-44FB-84C3-753CD4801954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434FBEBE-9C4F-45F8-93C6-5C36A87218CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

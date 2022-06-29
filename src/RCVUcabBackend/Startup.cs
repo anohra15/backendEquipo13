@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RCVUcabBackend.Persistence.DAOs.Implementations;
+using RCVUcabBackend.Persistence.DAOs.Interfaces;
 
 namespace RCVUcabBackend
 {
@@ -37,6 +39,7 @@ namespace RCVUcabBackend
                     UseEnumCheckConstraints()
             );
             services.AddTransient<IRCVDbContext, RCVDbContext>();
+            services.AddTransient<ITallerDAO, TallerDAO>();
             //Implementar la inyeccion de sus entidades
             /*
              services.AddTransient<IProviderDAO, ProviderDAO>();

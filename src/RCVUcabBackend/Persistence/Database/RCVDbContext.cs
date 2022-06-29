@@ -78,6 +78,16 @@ namespace backendRCVUcab.Persistence.Database
          {
              get; set;
          }
+         
+         public virtual Microsoft.EntityFrameworkCore.DbSet<AnalisisEntity> Analisis
+         {
+             get; set;
+         }
+         
+         public virtual Microsoft.EntityFrameworkCore.DbSet<PiezasEntity> Piezas
+         {
+             get; set;
+         }
 
          
         

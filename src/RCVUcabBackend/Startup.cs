@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RCVUcabBackend.Persistence.DAOs.Implementations;
+using RCVUcabBackend.Persistence.DAOs.Interfaces;
 
 namespace RCVUcabBackend
 {
@@ -33,18 +35,19 @@ namespace RCVUcabBackend
                 options.UseNpgsql(
                     Configuration["DBConnectionString"], 
                     x => x.UseNetTopologySuite()
-                ).UseValidationCheckConstraints().
-                    UseEnumCheckConstraints()
+                )
             );
             services.AddTransient<IRCVDbContext, RCVDbContext>();
+            //services.AddTransient<ITallerDAO, TallerDAO>();
+            //services.AddTransient<IMessageConsumer, RabbitMQConsumer>();
             //Implementar la inyeccion de sus entidades
             /*
-             services.AddTransient<IProviderDAO, ProviderDAO>();
              */
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RCVUcabBackend", Version = "v1" });
             });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

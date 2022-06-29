@@ -12,6 +12,7 @@ namespace administrador.Persistence.Entities
         [Column(TypeName = "DATE")]
         [Required]
         public DateTime vencimiento { get; set; } 
+        public bool desactivada { get; set; }
         public ICollection<AseguradoEntity> asegurado { get; set; }
         public ICollection<IncidentesEntity> incidentes { get; set; }
     }

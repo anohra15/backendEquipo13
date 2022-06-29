@@ -7,17 +7,18 @@ using administrador.Responses;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using administrador.Persistence.DAOs.Implementations;
+using Microsoft.AspNetCore.Identity;
 
 namespace administrador.Controllers.Administrador
 {
     [ApiController]
-    [Route("provider")]
-    public class ProviderController : Controller
+    [Route("Administrador")]
+    public class AdministradorController : Controller
     {
         private readonly IAdministradorDAO _adminDAO;
-        private readonly ILogger<ProviderController> _logger;
+        private readonly ILogger<AdministradorController> _logger;
 
-        public ProviderController(ILogger<ProviderController> logger, IAdministradorDAO providerDAO)
+        public AdministradorController(ILogger<AdministradorController> logger, IAdministradorDAO providerDAO)
         {
             //_adminDAO = AdministradorDAO;
             _logger = logger;
@@ -39,5 +40,32 @@ namespace administrador.Controllers.Administrador
             }
             return response;
         }
+
+        /*[HttpPost()]
+        public ActionResult<AdminDTO> AddUser([FromBody] AdminDTO newUserToCreate)
+        {
+            if (string.IsNullOrEmpty(newUserToCreate.Name))
+                return BadRequest(new ProblemDetails()
+                {
+                    Title = "Bad parameters",
+                    Detail = "The name of the new user cannot be empty or null",
+                    Instance = HttpContext.Request.Path
+                });
+
+            var userAlreadyExists = _userRepository.Exists(newUserToCreate.Name);
+            if (userAlreadyExists)
+                return Conflict(new ProblemDetails()
+                {
+                    Detail = "User already exists",
+                    Title = "Bad parameters",
+                    Instance = HttpContext.Request.Path
+                });
+
+            var newUser = new User(newUserToCreate.Name);
+
+            _userRepository.Add(newUser);
+
+            return Created($"/users/{newUserToCreate.Name}", UserDto.FromModel(newUser));
+        }*/
     }
 }

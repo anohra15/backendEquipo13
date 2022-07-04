@@ -12,6 +12,8 @@ namespace perito.BussinesLogic.DTOs
         public string apellidos { get; set; }
         public string email { get; set; }
         public string contrasena { get; set; }
+        
+        public DireccionEntity direccion { get; set; }
 
     };
 }

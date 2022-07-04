@@ -23,6 +23,12 @@ namespace perito.Persistence.Database
         {
             get; set;
         }
-        
+
+        DbSet<DireccionEntity> direcciones
+        {
+            get;
+            set;
+        }
+
     }
 }

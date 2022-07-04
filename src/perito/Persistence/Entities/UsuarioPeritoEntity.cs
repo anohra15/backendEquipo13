@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,7 @@ namespace perito.Persistence.Entities
         [MaxLength(20)]
         [Required]
         public string contrasena { get; set; }
+
+        public DireccionEntity direccion { get; set; }
     }
 }

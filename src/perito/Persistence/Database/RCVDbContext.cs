@@ -42,6 +42,12 @@ namespace perito.Persistence.Database
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("uuid_generate_v4()") // Use 
                 .IsRequired();
+            //Entidad DireccionEntity
+            modelBuilder.Entity<DireccionEntity>()
+                .Property(direccion => direccion.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()") // Use 
+                .IsRequired();
             //Fin
         }
 
@@ -55,7 +61,8 @@ namespace perito.Persistence.Database
 
         public virtual Microsoft.EntityFrameworkCore.DbSet<AnalisisEntity> analisis { get; set; }
 
-        
+        public virtual Microsoft.EntityFrameworkCore.DbSet<DireccionEntity> direcciones { get; set; }
+
 
     }
 }

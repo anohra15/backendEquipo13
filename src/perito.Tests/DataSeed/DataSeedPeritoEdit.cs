@@ -13,7 +13,9 @@ namespace perito.Tests.DataSeed
     public static class DataSeedPeritoEdit
     {
          public static Mock<DbSet<UsuarioPeritoEntity>> mockSetPerito = new Mock<DbSet<UsuarioPeritoEntity>>();
-
+         public static Mock<DbSet<DireccionEntity>> mockSetDireccion = new Mock<DbSet<DireccionEntity>>();
+         
+         
         
         public static PeritoDTO requests = new PeritoDTO
         {

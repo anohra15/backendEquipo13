@@ -14,12 +14,14 @@ namespace perito.Controllers.Perito
     public class PeritoController : Controller
     {
         private readonly IPeritoDAO _peritoDAO;
+        private readonly IDireccionDAO _direccionDAO;
         private readonly ILogger<PeritoController> _logger;
 
-        public PeritoController(ILogger<PeritoController> logger, IPeritoDAO peritoDAO)
+        public PeritoController(ILogger<PeritoController> logger, IPeritoDAO peritoDAO, IDireccionDAO direccionDao)
         {
             _peritoDAO = peritoDAO;
             _logger = logger;
+            _direccionDAO = direccionDao;
 
         }
 
@@ -53,6 +55,25 @@ namespace perito.Controllers.Perito
                 response.DataInsert = _peritoDAO.ActualizarPerito(peritoDTO,email);
                 response.Message = "se actualizo exitosamente";
                 response.Data = peritoDTO;
+            }
+            catch (RCVExceptions ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        [HttpPost("create/perito")]
+
+        public ApplicationResponse<DireccionDTO> createDireccion([Required] [FromRoute] DireccionDTO direccionDto)
+        {
+            var response = new ApplicationResponse<DireccionDTO>();
+            try
+            {
+                response.DataInsert = _direccionDAO.CreateDireccion(direccionDto);
+                response.Message = "se registro exitosamente";
+                response.Data = direccionDto;
             }
             catch (RCVExceptions ex)
             {

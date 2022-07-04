@@ -17,6 +17,8 @@ namespace perito.Tests.UnitTests.Controllers
     {
         private readonly PeritoController _controller;
         private readonly Mock<IPeritoDAO> _serviceMock;
+        private readonly Mock<IDireccionDAO> _serviveMock2;
+        
         private readonly Mock<ILogger<PeritoController>> _loggerMock;
         private string email = "prueba@hotmail.com";
 
@@ -24,7 +26,7 @@ namespace perito.Tests.UnitTests.Controllers
         {
             _loggerMock = new Mock<ILogger<PeritoController>>();
             _serviceMock = new Mock<IPeritoDAO>();
-            _controller = new PeritoController(_loggerMock.Object, _serviceMock.Object);
+            _controller = new PeritoController(_loggerMock.Object, _serviceMock.Object, _serviveMock2.Object);
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();

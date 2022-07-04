@@ -1,8 +1,6 @@
 ﻿using administrador.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-
 namespace administrador.Persistence.Database
 {
     public class RCVDbContext : DbContext, IRCVDbContext
@@ -20,6 +18,15 @@ namespace administrador.Persistence.Database
             {
                 return this;
             }
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            /*if (!optionsBuilder.IsConfigured)
+             {
+                 optionsBuilder.UseNpgsql(
+                     "Server=migrations;Database=postgres;Port=5432;Username=postgres;Password=admin");
+             }*/
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,14 +60,10 @@ namespace administrador.Persistence.Database
                 .IsRequired();
         }
         
-        public Task<int> SaveChangesAsync()
-        {
-            return base.SaveChangesAsync();
-        }
-        public virtual Microsoft.EntityFrameworkCore.DbSet<AseguradoEntity> asegurado { get; set; }
-        public virtual Microsoft.EntityFrameworkCore.DbSet<CarrosEntity> cars { get; set; }
-        public virtual Microsoft.EntityFrameworkCore.DbSet<IncidentesEntity> incident { get; set; }
-        public virtual Microsoft.EntityFrameworkCore.DbSet<PolizaEntity> poliza { get; set; }
-        public virtual Microsoft.EntityFrameworkCore.DbSet<UsuariosEntity> user { get; set; }
+        public virtual DbSet<AseguradoEntity> asegurado { get; set; }
+        public virtual DbSet<CarrosEntity> cars { get; set; }
+        public virtual DbSet<IncidentesEntity> incident { get; set; }
+        public virtual DbSet<PolizaEntity> poliza { get; set; }
+        public virtual DbSet<UsuariosEntity> user { get; set; }
     }
 }

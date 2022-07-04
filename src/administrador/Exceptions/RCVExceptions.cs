@@ -19,7 +19,8 @@ namespace administrador.Exceptions
             CodigoError = _codigoError;
             MensajeSoporte = _mensajesoporte;
         }
-        
+
+       
         public RCVExceptions(string _mensaje, string _mensajeSoporte, Exception _excepcion)
         {
             Mensaje = _mensaje;

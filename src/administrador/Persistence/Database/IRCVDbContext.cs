@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using administrador.Persistence.Entities;
+﻿using administrador.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -32,6 +31,5 @@ namespace administrador.Persistence.Database
         {
             get; set;
         }
-        Task<int> SaveChangesAsync();
     }
 }     

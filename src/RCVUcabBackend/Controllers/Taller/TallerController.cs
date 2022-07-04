@@ -34,7 +34,7 @@ namespace RCVUcabBackend.Controllers.Taller
                 ressponse.Message = "se registro exitosamente";
                 ressponse.Data = tallerDto;
             }
-            catch (RCVExceptions ex)
+            catch (ExcepcionTaller ex)
             {
                 ressponse.Success = false;
                 ressponse.Message = ex.Mensaje;
@@ -52,7 +52,7 @@ namespace RCVUcabBackend.Controllers.Taller
                 ressponse.Message = "se elimino exitosamente el taller de id="+id_taller;
                 ressponse.Data = null;
             }
-            catch (RCVExceptions ex)
+            catch (ExcepcionTaller ex)
             {
                 ressponse.Success = false;
                 ressponse.Message = ex.Mensaje;
@@ -70,7 +70,7 @@ namespace RCVUcabBackend.Controllers.Taller
                 ressponse.Message = "se edito exitosamente el taller de id="+id_taller;
                 ressponse.Data = null;
             }
-            catch (RCVExceptions ex)
+            catch (ExcepcionTaller ex)
             {
                 ressponse.Success = false;
                 ressponse.Message = ex.Mensaje;
@@ -86,7 +86,7 @@ namespace RCVUcabBackend.Controllers.Taller
             {
                 ressponse.Data = _tallerDAO.ConsultarRequerimientosAsignados(id_taller);
             }
-            catch (RCVExceptions ex)
+            catch (ExcepcionTaller ex)
             {
                 ressponse.Success = false;
                 ressponse.Message = ex.Mensaje;
@@ -102,7 +102,7 @@ namespace RCVUcabBackend.Controllers.Taller
             {
                 ressponse.Data = _tallerDAO.ConsultarRequerimientosAsignadosPorFiltro(id_taller,filtro_estado);
             }
-            catch (RCVExceptions ex)
+            catch (ExcepcionTaller ex)
             {
                 ressponse.Success = false;
                 ressponse.Message = ex.Mensaje;

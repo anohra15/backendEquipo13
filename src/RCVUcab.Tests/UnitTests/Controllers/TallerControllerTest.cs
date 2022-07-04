@@ -43,7 +43,7 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         [Fact(DisplayName = "Ejecutar exception de crear taller por datos vacios")]
         public Task CreateTallerConDatosVaciosError()    
         {
-            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new RCVExceptions("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros"));
+            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new ExcepcionTaller("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros"));
             var result = _controller.createTaller(DataSeedTallerEdit.requests1);
             Assert.Equal("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros",result.Message);
             return Task.CompletedTask;
@@ -52,7 +52,7 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         [Fact(DisplayName = "Ejecutar exception de crear taller que ya esta registrado")]
         public Task CreateTallerYaExistenteError()
         {
-            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new RCVExceptions("No se puede crear este taller porque ya existe"));
+            _serviceMock.Setup(x => x.CreateTaller(It.IsAny<TallerDTO>())).Throws(new ExcepcionTaller("No se puede crear este taller porque ya existe"));
             var result = _controller.createTaller(DataSeedTallerEdit.requests1);
             Assert.Equal("No se puede crear este taller porque ya existe",result.Message);
             return Task.CompletedTask;
@@ -70,7 +70,7 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         [Fact(DisplayName = "Ejecutar exception de Eliminar Taller que no esta registrado ")]
         public Task EliminarTallerQueNoEstaRegistrado()
         {
-            _serviceMock.Setup(x => x.EliminarTaller(It.IsAny<Guid>())).Throws(new RCVExceptions("No existe el talled"));
+            _serviceMock.Setup(x => x.EliminarTaller(It.IsAny<Guid>())).Throws(new ExcepcionTaller("No existe el talled"));
             var result = _controller.eliminarTaller(DataSeedTallerEdit.requests2[0].Id);
             Assert.Equal(result.Message,"No existe el talled");
             return Task.CompletedTask;
@@ -90,7 +90,7 @@ namespace RCVUcab.Tests.UnitTests.Controllers
         {
             var editTaller = new TallerDTO
                 { Marcac_Carros = new List<MarcaDTO> { new MarcaDTO { nombre_marca = "mercedes" } } };
-            _serviceMock.Setup(x => x.ActualizarTaller(It.IsAny<TallerDTO>(), It.IsAny<Guid>())).Throws(new RCVExceptions("No existe el talled"));
+            _serviceMock.Setup(x => x.ActualizarTaller(It.IsAny<TallerDTO>(), It.IsAny<Guid>())).Throws(new ExcepcionTaller("No existe el talled"));
             var result = _controller.editarTaller(editTaller,DataSeedTallerEdit.requests2[0].Id);
             Assert.Equal(result.Message,"No existe el talled");
             return Task.CompletedTask;

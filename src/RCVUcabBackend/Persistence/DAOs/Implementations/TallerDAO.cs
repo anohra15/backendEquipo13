@@ -132,16 +132,16 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                 {
                     error++;
                     mensajeError = "No se puede crear este taller porque ya existe";
-                    throw new RCVExceptions(mensajeError);
+                    throw new ExcepcionTaller(mensajeError);
                 }
                 if ((String.IsNullOrEmpty(taller.direccion)||validarEspaciosBlancos(taller.direccion)) ||
                     (String.IsNullOrEmpty(taller.nombre_taller)||validarEspaciosBlancos(taller.nombre_taller)) ||
                     (String.IsNullOrEmpty(taller.RIF)||validarEspaciosBlancos(taller.RIF)) ||
-                    taller.Marcac_Carros.Count==0)
+                    taller.Marcac_Carros.Count == 0)
                 {
                     error++;
                     mensajeError = "No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros";
-                    throw new RCVExceptions(mensajeError);
+                    throw new ExcepcionTaller(mensajeError);
                 }
                 else
                 {
@@ -152,7 +152,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             }
             catch (Exception ex)
             {
-                throw new RCVExceptions(mensajeError);
+                throw new ExcepcionTaller(mensajeError);
             }
             return i;
         }
@@ -167,7 +167,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                 {
                     error++;
                     mensajeError = "No existe el talled";
-                    throw new RCVExceptions(mensajeError);
+                    throw new ExcepcionTaller(mensajeError);
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
    
             }catch (Exception ex)
             {
-                throw new RCVExceptions(mensajeError);
+                throw new ExcepcionTaller(mensajeError);
             }
             return i;
         }
@@ -192,7 +192,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                 {
                     error++;
                     mensajeError = "No existe el talled";
-                    throw new RCVExceptions(mensajeError);
+                    throw new ExcepcionTaller(mensajeError);
                 }
                 else
                 {
@@ -262,7 +262,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
    
             }catch (Exception ex)
             {
-                throw new RCVExceptions(mensajeError);
+                throw new ExcepcionTaller(mensajeError);
             }
             return i;
         }
@@ -281,7 +281,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             }
             catch (Exception e)
             {
-                throw new RCVExceptions(mensajeError);
+                throw new ExcepcionTaller(mensajeError);
             }
         }
         
@@ -302,7 +302,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             }
             catch (Exception e)
             {
-                throw new RCVExceptions(mensajeError);
+                throw new ExcepcionTaller(mensajeError);
             }
         }
                 

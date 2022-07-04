@@ -63,7 +63,7 @@ namespace RCVUcab.Tests.UnitTests.DAOs
             taller.RIF = "";
             taller.nombre_taller = "";
             taller.Marcac_Carros.RemoveAt(0);
-            var result = Assert.Throws<RCVExceptions>(()=>_dao.CreateTaller(taller));
+            var result = Assert.Throws<ExcepcionTaller>(()=>_dao.CreateTaller(taller));
             Assert.Equal("No se puede crar un taller si alguno de estos datos esta vacio:nombre del taller, direccrioon, RIF y marcas de carros",result.Mensaje);
             return Task.CompletedTask;
         }
@@ -80,7 +80,7 @@ namespace RCVUcab.Tests.UnitTests.DAOs
                 nombre_marca = "Toyota"
             });
             taller.RIF = "J-458965785";
-            var result = Assert.Throws<RCVExceptions>(()=>_dao.CreateTaller(taller));
+            var result = Assert.Throws<ExcepcionTaller>(()=>_dao.CreateTaller(taller));
             Assert.Equal("No se puede crear este taller porque ya existe",result.Mensaje);
             return Task.CompletedTask;
         }
@@ -101,7 +101,7 @@ namespace RCVUcab.Tests.UnitTests.DAOs
         {
             _contextMock.SetupDbContextData("insert");
             var taller = DataSeedTallerEdit.requestEliminateExcep;
-            var result = Assert.Throws<RCVExceptions>(()=>_dao.EliminarTaller(taller.Id));
+            var result = Assert.Throws<ExcepcionTaller>(()=>_dao.EliminarTaller(taller.Id));
             Assert.Equal("No existe el talled",result.Mensaje);
             return Task.CompletedTask;
         }
@@ -131,7 +131,7 @@ namespace RCVUcab.Tests.UnitTests.DAOs
                 nombre_taller = "G"
             };
             var taller = DataSeedTallerEdit.requestEditExcep;
-            var result = Assert.Throws<RCVExceptions>(()=>_dao.ActualizarTaller(editTaller,taller.Id));
+            var result = Assert.Throws<ExcepcionTaller>(()=>_dao.ActualizarTaller(editTaller,taller.Id));
             Assert.Equal("No existe el talled",result.Mensaje);
             return Task.CompletedTask;
         }

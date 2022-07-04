@@ -21,7 +21,7 @@ namespace administradorTest.DataSeed
                 {
                     Id = new Guid("3fbfe10c-2dac-4a47-9de3-a725a6de92c6"),
                     tipo = "Completa",
-                    vencimiento = DateTime.Parse("20/01/2024"), 
+                    vencimiento = DateTime.Parse("01/01/2021"), 
                     asegurado = new List<AseguradoEntity>()
                     {
                         new AseguradoEntity
@@ -59,7 +59,7 @@ namespace administradorTest.DataSeed
                 {
                     Id = new Guid("3fbfe10c-2dac-4a47-9de3-a725a6de92c4"),
                     tipo = "Completa",
-                    vencimiento = DateTime.Parse("20/01/2023"), 
+                    vencimiento = DateTime.Parse("01/01/2021"), 
                     asegurado = new List<AseguradoEntity>()
                     {
                         new AseguradoEntity

@@ -9,6 +9,8 @@ using administrador.Persistence.DAOs.Interfaces;
 using administrador.Persistence.Database;
 using administrador.Exceptions;
 using administrador.Persistence.Entities;
+using Microsoft.VisualBasic;
+
 namespace administrador.Persistence.DAOs.Implementations
 {
     public class PolizaDAO : IPolizaDAO
@@ -60,6 +62,28 @@ namespace administrador.Persistence.DAOs.Implementations
             poliza.desactivada = true;
             await _context.SaveChangesAsync();
             return true;
+        }
+        
+        /*EVAUACIÓN INDIVIDUAL EN CLASE TRAER POLIZAS CON FECHA DE VENCIMIENTO*/
+        public List<PolizaSimpleDTO> getPolicy(DateTime fecha) //trae todas las polizas
+        {
+            try
+            {
+                var poliza = _context.poliza
+                    .Where(p => p.vencimiento == fecha)
+                    .Select( p => new PolizaSimpleDTO(){
+                        tipo = p.tipo,
+                        vencimiento = p.vencimiento,
+                        asegurado = p.asegurado
+                    }).ToList();
+                if(poliza.ToList().Count == 0){
+                    throw new Exception("No hay polizas, con esa fecha");
+                }
+                return poliza.ToList();
+            }
+            catch(Exception ex){
+                throw new RCVExceptions("No se ha podido presentar las polizas", ex.Message, ex);
+            }
         }
 
         public string NotImplementedException { get; set; }

@@ -20,6 +20,21 @@ namespace administrador.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("IncidentesEntityPolizaEntity", b =>
+                {
+                    b.Property<Guid>("incidentesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("polizaId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("incidentesId", "polizaId");
+
+                    b.HasIndex("polizaId");
+
+                    b.ToTable("IncidentesEntityPolizaEntity");
+                });
+
             modelBuilder.Entity("administrador.Persistence.Entities.AseguradoEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -32,6 +47,9 @@ namespace administrador.Persistence.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("PolizaEntityId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -58,6 +76,8 @@ namespace administrador.Persistence.Migrations
                         .HasColumnType("character(1)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PolizaEntityId");
 
                     b.ToTable("asegurado");
                 });
@@ -125,26 +145,22 @@ namespace administrador.Persistence.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("adminId")
+                    b.Property<Guid?>("UsuariosEntityId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("fecha")
                         .HasColumnType("DATE");
-
-                    b.Property<Guid>("polizaId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("ubicacion")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("adminId");
-
-                    b.HasIndex("polizaId");
+                    b.HasIndex("UsuariosEntityId");
 
                     b.ToTable("incident");
                 });
@@ -162,17 +178,14 @@ namespace administrador.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("PolizaEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("aseguradoId")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("desactivada")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("tipo")
                         .IsRequired()
@@ -182,10 +195,6 @@ namespace administrador.Persistence.Migrations
                         .HasColumnType("DATE");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PolizaEntityId");
-
-                    b.HasIndex("aseguradoId");
 
                     b.ToTable("poliza");
                 });
@@ -226,6 +235,28 @@ namespace administrador.Persistence.Migrations
                     b.ToTable("user");
                 });
 
+            modelBuilder.Entity("IncidentesEntityPolizaEntity", b =>
+                {
+                    b.HasOne("administrador.Persistence.Entities.IncidentesEntity", null)
+                        .WithMany()
+                        .HasForeignKey("incidentesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("administrador.Persistence.Entities.PolizaEntity", null)
+                        .WithMany()
+                        .HasForeignKey("polizaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("administrador.Persistence.Entities.AseguradoEntity", b =>
+                {
+                    b.HasOne("administrador.Persistence.Entities.PolizaEntity", null)
+                        .WithMany("asegurado")
+                        .HasForeignKey("PolizaEntityId");
+                });
+
             modelBuilder.Entity("administrador.Persistence.Entities.CarrosEntity", b =>
                 {
                     b.HasOne("administrador.Persistence.Entities.PolizaEntity", "seguro")
@@ -237,41 +268,14 @@ namespace administrador.Persistence.Migrations
 
             modelBuilder.Entity("administrador.Persistence.Entities.IncidentesEntity", b =>
                 {
-                    b.HasOne("administrador.Persistence.Entities.UsuariosEntity", "admin")
+                    b.HasOne("administrador.Persistence.Entities.UsuariosEntity", null)
                         .WithMany("admin")
-                        .HasForeignKey("adminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("administrador.Persistence.Entities.PolizaEntity", "poliza")
-                        .WithMany("poliza")
-                        .HasForeignKey("polizaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("admin");
-
-                    b.Navigation("poliza");
+                        .HasForeignKey("UsuariosEntityId");
                 });
 
             modelBuilder.Entity("administrador.Persistence.Entities.PolizaEntity", b =>
                 {
-                    b.HasOne("administrador.Persistence.Entities.PolizaEntity", null)
-                        .WithMany("seguro")
-                        .HasForeignKey("PolizaEntityId");
-
-                    b.HasOne("administrador.Persistence.Entities.AseguradoEntity", "asegurado")
-                        .WithMany()
-                        .HasForeignKey("aseguradoId");
-
                     b.Navigation("asegurado");
-                });
-
-            modelBuilder.Entity("administrador.Persistence.Entities.PolizaEntity", b =>
-                {
-                    b.Navigation("poliza");
-
-                    b.Navigation("seguro");
                 });
 
             modelBuilder.Entity("administrador.Persistence.Entities.UsuariosEntity", b =>

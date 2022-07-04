@@ -79,7 +79,6 @@ namespace administradorTest.UnitTest.DAOs
                 primer_a = "Garcia",
                 segundo_a = "Espinoza",
                 sexo = 'm'
-                
             };
             String result = _dao.createInsured(insured);
             String expected = "Éxitoso";

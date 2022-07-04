@@ -79,5 +79,15 @@ namespace administradorTest.UnitTest.DAOs
             Assert.True(result.Result);
             return Task.CompletedTask;
         }
+        
+        /*EVAUACIÓN INDIVIDUAL EN CLASE TRAER POLIZAS CON FECHA DE VENCIMIENTO*/
+        [Fact (DisplayName = "Trae polizas compradas en 2020")]
+        public Task getPolizaTrue()
+        {
+            var fecha = DateTime.Parse("01/01/2021"); //todas con fecha de vencimiento 2021
+            var result = _dao.getPolicy(fecha);
+            Assert.True(result.Any()); 
+            return Task.CompletedTask; 
+        }
     }
 }

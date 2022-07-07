@@ -17,6 +17,8 @@ namespace backendRCVUcab.Persistence.Entities
         [MaxLength(100)][Required] public string direccion { get; set; }
 
         [MaxLength(100)][Required] public string telefono { get; set; }
+        
+        [Required] public Tipo_Proveedor tipo { get; set; }
        
           public ICollection<MarcaEntity> marcas { get; set; }
           

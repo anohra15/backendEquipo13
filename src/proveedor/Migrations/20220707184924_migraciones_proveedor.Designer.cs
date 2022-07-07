@@ -10,8 +10,8 @@ using backendRCVUcab.Persistence.Database;
 namespace RCVUcabBackend.Migrations
 {
     [DbContext(typeof(RCVDbContext))]
-    [Migration("20220629081654_MigracionesProv")]
-    partial class MigracionesProv
+    [Migration("20220707184924_migraciones_proveedor")]
+    partial class migraciones_proveedor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -263,7 +263,12 @@ namespace RCVUcabBackend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid?>("tipoId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("tipoId");
 
                     b.ToTable("Proveedor");
                 });
@@ -298,6 +303,33 @@ namespace RCVUcabBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Solicitud");
+                });
+
+            modelBuilder.Entity("backendRCVUcab.Persistence.Entities.Tipo_Proveedor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("tipo")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tipo_Proveedor");
                 });
 
             modelBuilder.Entity("CotizacionEntityPiezaEntity", b =>
@@ -373,6 +405,15 @@ namespace RCVUcabBackend.Migrations
                         .HasForeignKey("solicitudesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backendRCVUcab.Persistence.Entities.ProveedorEntity", b =>
+                {
+                    b.HasOne("backendRCVUcab.Persistence.Entities.Tipo_Proveedor", "tipo")
+                        .WithMany()
+                        .HasForeignKey("tipoId");
+
+                    b.Navigation("tipo");
                 });
 #pragma warning restore 612, 618
         }

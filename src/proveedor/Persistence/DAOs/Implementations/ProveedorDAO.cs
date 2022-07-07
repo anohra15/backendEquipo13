@@ -18,6 +18,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
         public int error = 0;
         public string mensajeError = "Ocurrio un error inesperado ";
         public ICollection<MarcaEntity> listaMarcas= new List<MarcaEntity>();
+        public Tipo_Proveedor tipos = new Tipo_Proveedor();
         
         
         
@@ -82,6 +83,28 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             return false;
         }
 
+        public bool verificarTipo(IRCVDbContext context,Tipo_Proveedor proveedorValidar)
+        {
+            if (context.Tipos.Any(x => x.tipo == proveedorValidar.tipo))
+            {
+                return true;   
+            }
+            return false;
+        }
+        
+        public bool AsignarTiposExistente(IRCVDbContext context,Tipo_Proveedor tipoValidar)
+        {
+            if (verificarTipo( context, tipoValidar))
+            {
+                var tipo = context.Tipos.
+                    Where(b => b.tipo.Equals(tipoValidar.tipo)).
+                    First();
+                tipos = tipo;
+                return true;   
+            }
+            return false;
+        }
+    
         public void crearProveedorEntity(ProveedorDTO P)
         {
             var i2=0;
@@ -101,8 +124,24 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                     i2=_context.DbContext.SaveChanges();   
                 }
             }
+            
+            if (!AsignarTiposExistente(_context, P.tipoProveedor))
+            {
+                var tp =new Tipo_Proveedor();
+                tp=new Tipo_Proveedor();
+                mp.nombre = P.tipoProveedor.tipo;
+                mp.CreatedAt=DateTime.Now;
+                mp.CreatedBy = null;
+                mp.UpdatedAt = null;
+                mp.UpdatedBy = null;
+                _context.Tipos.Add(tp);
+                i2=_context.DbContext.SaveChanges();   
+            }
+            
+            
             this.Proveedor.marcas=listaMarcas;
-            this.Proveedor.direccion = P.direccion;
+            this.Proveedor.direccion = tipos.tipo;
+            this.Proveedor.tipo = P.tipoProveedor;
             this.Proveedor.telefono = P.telefono;
             this.Proveedor.nombre = P.nombre;
             this.Proveedor.CreatedAt=DateTime.Now;

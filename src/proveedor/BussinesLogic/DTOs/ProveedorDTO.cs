@@ -10,6 +10,8 @@ namespace RCVUcabBackend.BussinesLogic.DTOs
          public string direccion { get; set; }
 
          public string telefono { get; set; }
+         
+         public Tipo_Proveedor tipoProveedor { get; set; }
        
         public List<MarcaDTO> marcas { get; set; }
         

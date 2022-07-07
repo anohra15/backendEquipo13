@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RCVUcabBackend.Migrations
 {
-    public partial class MigracionesProv : Migration
+    public partial class migraciones_proveedor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,24 +81,6 @@ namespace RCVUcabBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Proveedor",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
-                    nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    direccion = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    telefono = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Proveedor", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Solicitud",
                 columns: table => new
                 {
@@ -113,6 +95,22 @@ namespace RCVUcabBackend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Solicitud", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tipo_Proveedor",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
+                    tipo = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tipo_Proveedor", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,30 +162,6 @@ namespace RCVUcabBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarcaEntityProveedorEntity",
-                columns: table => new
-                {
-                    marcasId = table.Column<Guid>(type: "uuid", nullable: false),
-                    proveedoresId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MarcaEntityProveedorEntity", x => new { x.marcasId, x.proveedoresId });
-                    table.ForeignKey(
-                        name: "FK_MarcaEntityProveedorEntity_Marca_marcasId",
-                        column: x => x.marcasId,
-                        principalTable: "Marca",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MarcaEntityProveedorEntity_Proveedor_proveedoresId",
-                        column: x => x.proveedoresId,
-                        principalTable: "Proveedor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PiezaEntitySolicitudEntity",
                 columns: table => new
                 {
@@ -207,6 +181,55 @@ namespace RCVUcabBackend.Migrations
                         name: "FK_PiezaEntitySolicitudEntity_Solicitud_solicitudesId",
                         column: x => x.solicitudesId,
                         principalTable: "Solicitud",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Proveedor",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
+                    nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    direccion = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    telefono = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    tipoId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Proveedor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Proveedor_Tipo_Proveedor_tipoId",
+                        column: x => x.tipoId,
+                        principalTable: "Tipo_Proveedor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MarcaEntityProveedorEntity",
+                columns: table => new
+                {
+                    marcasId = table.Column<Guid>(type: "uuid", nullable: false),
+                    proveedoresId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarcaEntityProveedorEntity", x => new { x.marcasId, x.proveedoresId });
+                    table.ForeignKey(
+                        name: "FK_MarcaEntityProveedorEntity_Marca_marcasId",
+                        column: x => x.marcasId,
+                        principalTable: "Marca",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MarcaEntityProveedorEntity_Proveedor_proveedoresId",
+                        column: x => x.proveedoresId,
+                        principalTable: "Proveedor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -256,6 +279,11 @@ namespace RCVUcabBackend.Migrations
                 column: "solicitudesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Proveedor_tipoId",
+                table: "Proveedor",
+                column: "tipoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProveedorEntitySolicitudEntity_solicitudesId",
                 table: "ProveedorEntitySolicitudEntity",
                 column: "solicitudesId");
@@ -295,6 +323,9 @@ namespace RCVUcabBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Solicitud");
+
+            migrationBuilder.DropTable(
+                name: "Tipo_Proveedor");
         }
     }
 }

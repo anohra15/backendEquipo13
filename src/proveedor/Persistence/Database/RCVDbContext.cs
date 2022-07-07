@@ -65,11 +65,23 @@ namespace backendRCVUcab.Persistence.Database
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("uuid_generate_v4()")    // Use 
                 .IsRequired();
+            
+            //Entidad Tipo
+            modelBuilder.Entity<Tipo_Proveedor>()
+                .Property(tipo => tipo.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()")    // Use 
+                .IsRequired();
 
         }
 
 
         public virtual Microsoft.EntityFrameworkCore.DbSet<ProveedorEntity> proveedor
+        {
+            get; set;
+        }
+        
+        public virtual Microsoft.EntityFrameworkCore.DbSet<Tipo_Proveedor> tipo_Proveedor
         {
             get; set;
         }
@@ -107,6 +119,11 @@ namespace backendRCVUcab.Persistence.Database
         }
         
         public DbSet<MarcaEntity> Marcas
+        {
+            get; set;
+        }
+        
+        public DbSet<Tipo_Proveedor> Tipos
         {
             get; set;
         }

@@ -15,6 +15,11 @@ namespace backendRCVUcab.Persistence.Database
             {
                 get; set;
             }
+            
+            DbSet<Tipo_Proveedor> Tipos
+            {
+                get; set;
+            }
          
             DbSet<MarcaEntity> Marcas
             {

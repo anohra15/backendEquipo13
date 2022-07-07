@@ -75,13 +75,21 @@ namespace RCVUcabBackend.Controllers.Taller
             var ressponse = new ApplicationResponse<ProveedorDTO>();
             try
             {
-                ressponse.DataInsert = _proveedorDAO.CreateProveedor(proveedorDto);
-                ressponse.Message = "se registro exitosamente";
-                ressponse.Data = proveedorDto;
-                if (!ModelState.IsValid)
+                if (proveedorDto.tipoProveedor.tipo == "de_partes")
+                {
+                    ressponse.DataInsert = _proveedorDAO.CreateProveedor(proveedorDto);
+                    ressponse.Message = "se registro exitosamente";
+                    ressponse.Data = proveedorDto;
+                    if (!ModelState.IsValid)
+                    {
+                        ressponse.Success = false;
+                        return ressponse;
+                    }
+                }
+                else
                 {
                     ressponse.Success = false;
-                    return ressponse;
+                    ressponse.Message = "Solo se admiten proveedores de partes";
                 }
             }
             catch (Exception ex)

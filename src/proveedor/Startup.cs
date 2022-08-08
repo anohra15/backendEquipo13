@@ -44,6 +44,8 @@ namespace RCVUcabBackend
              
              services.AddTransient<ISolicitudDAO, SolicitudDao>();
              
+             services.AddTransient<ICotizacionDAO, CotizacionDao>();
+             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "proveedor", Version = "v1" });

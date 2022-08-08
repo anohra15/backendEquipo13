@@ -10,9 +10,11 @@ using Microsoft.Extensions.Logging;
 using RCVUcabBackend.BussinesLogic.DTOs;
 using RCVUcabBackend.Persistence.DAOs.Interfaces;
 using System.Text;
+using RCVUcabBackend.BussinesLogic.Commands;
+using RCVUcabBackend.BussinesLogic.Commands.Commands.Atomics;
 
 
-namespace RCVUcabBackend.Controllers.Taller
+namespace RCVUcabBackend.Controllers.Proveedor
 {
    [ApiController]
     [Route("proveedor")]
@@ -67,6 +69,44 @@ namespace RCVUcabBackend.Controllers.Taller
             return ressponse;
         }
         */
+     
+     [HttpGet("consultar/solicitudesAsignadas/{id_proveedor}")]
+     public ApplicationResponse<ProveedorDTO> consultarSolicitudesAsignadas([Required][FromRoute]Guid id_proveedor)
+     {
+         var ressponse = new ApplicationResponse<ProveedorDTO>();
+         try
+         {
+             GetSolicitudesPorProveedorCommand command =
+                 CommandFactory.createGetSolicitudesPorProveedorCommand(id_proveedor);
+             command.Execute();
+             ressponse.Data = command.GetResult();
+         }
+         catch (RCVExceptions ex)
+         {
+             ressponse.Success = false;
+             ressponse.Message = ex.Mensaje;
+         }
+         return ressponse;
+     }
+     
+     [HttpDelete("consultar/deleteProveedor/{id_proveedor}")]
+     public ApplicationResponse<ProveedorDTO> deleteProvedor([Required][FromRoute]Guid id_proveedor)
+     {
+         var ressponse = new ApplicationResponse<ProveedorDTO>();
+         try
+         {
+             GetSolicitudesPorProveedorCommand command =
+                 CommandFactory.createGetSolicitudesPorProveedorCommand(id_proveedor);
+             command.Execute();
+             ressponse.Data = command.GetResult();
+         }
+         catch (RCVExceptions ex)
+         {
+             ressponse.Success = false;
+             ressponse.Message = ex.Mensaje;
+         }
+         return ressponse;
+     }
         
 
         [HttpPost("create/proveedor")]
@@ -77,9 +117,11 @@ namespace RCVUcabBackend.Controllers.Taller
             {
                 if (proveedorDto.tipoProveedor.tipo == "de_partes")
                 {
-                    ressponse.DataInsert = _proveedorDAO.CreateProveedor(proveedorDto);
+                    CreateProveedorCommand command =
+                        CommandFactory.createCreateProveedorCommand(proveedorDto);
+                    command.Execute();
                     ressponse.Message = "se registro exitosamente";
-                    ressponse.Data = proveedorDto;
+                    ressponse.Data = command.GetResult();
                     if (!ModelState.IsValid)
                     {
                         ressponse.Success = false;

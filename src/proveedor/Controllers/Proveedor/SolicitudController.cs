@@ -1,13 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using backendRCVUcab.Exceptions;
 using backendRCVUcab.Persistence.Entities;
 using backendRCVUcab.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RCVUcabBackend.BussinesLogic.Commands;
+using RCVUcabBackend.BussinesLogic.Commands.Commands.Atomics;
 using RCVUcabBackend.BussinesLogic.DTOs;
 using RCVUcabBackend.Persistence.DAOs.Interfaces;
 
-namespace RCVUcabBackend.Controllers.Taller
+namespace RCVUcabBackend.Controllers.Proveedor
 {
   
         [ApiController]
@@ -63,7 +66,27 @@ namespace RCVUcabBackend.Controllers.Taller
                    return ressponse;
                }
                */
+       
 
+            [HttpPut("declinarParticipacion/{id_solicitud}/{id_proveedor}")]
+            public ApplicationResponse<SolicitudDTO> declinarParticipacion([Required][FromRoute] Guid id_solicitud,[Required][FromRoute]Guid id_proveedor)
+            {
+                var ressponse = new ApplicationResponse<SolicitudDTO>();
+                try
+                {
+                    DeclineParticipacionCommand command =
+                        CommandFactory.createDeclineParticipacionCommand(id_solicitud, id_proveedor);
+                    command.Execute();
+                    ressponse.Message = "se declinó exitosamente la participacion ";
+                    ressponse.Data = command.GetResult();
+                }
+                catch (RCVExceptions ex)
+                {
+                    ressponse.Success = false;
+                    ressponse.Message = ex.Mensaje;
+                }
+                return ressponse;
+            }
 
             [HttpPost("create/solicitud")]
             public ApplicationResponse<SolicitudDTO> CreateSolicitud([Required] [FromBody] SolicitudDTO solicitudDto)
@@ -71,9 +94,40 @@ namespace RCVUcabBackend.Controllers.Taller
                 var ressponse = new ApplicationResponse<SolicitudDTO>();
                 try
                 {
-                    ressponse.DataInsert = _solicitudDAO.CreateSolicitud(solicitudDto);
+                    CreateSolicitudCommand command =
+                        CommandFactory.createCreateSolicitudCommand(solicitudDto);
+                    command.Execute();
                     ressponse.Message = "se registro exitosamente";
-                    ressponse.Data = solicitudDto;
+                    ressponse.Data = command.GetResult();
+                    if (!ModelState.IsValid)
+                    {
+                        ressponse.Success = false;
+                        return ressponse;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ressponse.Success = false;
+                    ressponse.Message = ex.Message;
+                    //ressponse.Exception = ex.Excepcion.ToString();
+                }
+
+                return ressponse;
+            }
+            
+            
+            
+            [HttpPost("create/ordenDeCompra")]
+            public ApplicationResponse<SolicitudDTO> CreateOrdenDeCompra([Required] [FromBody] SolicitudDTO solicitudDto)
+            {
+                var ressponse = new ApplicationResponse<SolicitudDTO>();
+                try
+                {
+                    CreateSolicitudCommand command =
+                        CommandFactory.createCreateSolicitudCommand(solicitudDto);
+                    command.Execute();
+                    ressponse.Message = "se registro exitosamente";
+                    ressponse.Data = command.GetResult();
                     if (!ModelState.IsValid)
                     {
                         ressponse.Success = false;

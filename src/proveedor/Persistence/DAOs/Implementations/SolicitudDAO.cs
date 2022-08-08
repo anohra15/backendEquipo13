@@ -13,19 +13,17 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
 {
     public class SolicitudDao:ISolicitudDAO
     {
-        public readonly IRCVDbContext _context;
         public SolicitudEntity Solicitud = new SolicitudEntity();
         public int error = 0;
         public string mensajeError = "Ocurrio un error inesperado ";
         public ICollection<PiezaEntity> listaPiezas= new List<PiezaEntity>();
         public ICollection<ProveedorEntity> listaProveedores= new List<ProveedorEntity>();
         
+        private static DesignTimeDbContextFactory desing = new DesignTimeDbContextFactory();
+        private IRCVDbContext _context = desing.CreateDbContext(null);
         
         
-        public SolicitudDao(IRCVDbContext context)
-        {
-            _context = context;
-        }
+      
         
 
 
@@ -143,13 +141,11 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
                     prs.UpdatedAt = null;
                     prs.UpdatedBy = null;
                     listaProveedores.Add(prs);
-                    _context.Proveedores.Add(prs);
-                    i2=_context.DbContext.SaveChanges();   
                 }
             }
-            
-            
-            this.Solicitud.piezas=listaPiezas;
+
+            this.Solicitud.nombre = S.nombre;
+            this.Solicitud.piezas = listaPiezas;
             this.Solicitud.proveedores = listaProveedores;
             this.Solicitud.estado = SolicitudCheck.Pendiente;
             this.Solicitud.idAnalisis = S.idAnalisis;
@@ -160,7 +156,7 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             this.Solicitud.UpdatedBy = null;
         }
 
-        public int CreateSolicitud(SolicitudDTO solicitud)
+        public SolicitudDTO CreateSolicitud(SolicitudDTO solicitud)
         {
             var i=0;
             try
@@ -190,7 +186,48 @@ namespace RCVUcabBackend.Persistence.DAOs.Implementations
             {
                 throw new RCVExceptions(mensajeError);
             }
-            return i;
+            return solicitud;
         }
+        
+        public SolicitudEntity traerSolicitud(IRCVDbContext context,Guid id_solicitud)
+        {
+            if (context.Solicitudes.Any(x => x.Id == id_solicitud ))
+            {
+                var solicitud = context.Solicitudes.
+                    Where(b => b.Id==id_solicitud).
+                    Single();
+                return solicitud;
+            }
+            return null;
+        }
+        
+          public SolicitudDTO declinarParticipacion(Guid id_solicitud,Guid id_proveedor)
+          {
+              var i=0;
+              try
+              {
+                  var solicitud = new SolicitudEntity();
+                      solicitud = traerSolicitud(_context, id_solicitud);
+
+                  if (solicitud == null)
+                  {
+                      error++;
+                      mensajeError = "No existe la solicitud";
+                      throw new RCVExceptions(mensajeError);
+                  }
+
+                  
+                  solicitud.estado = SolicitudCheck.Declinado;
+                  _context.Solicitudes.Update(solicitud);
+                  i=_context.DbContext.SaveChanges();
+              }
+              catch (Exception ex)
+              {
+                  throw new RCVExceptions(mensajeError);
+              }
+              return new SolicitudDTO();
+          }
+
+         
     }
 }

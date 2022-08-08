@@ -18,6 +18,8 @@ namespace RCVUcabBackend.BussinesLogic.DTOs
             public double costo { get; set; }
 
             public string tipo { get; set; }
+            
+            public double descuento { get; set; }
         
 
             public List<SolicitudDTO> solicitudes { get; set; }
